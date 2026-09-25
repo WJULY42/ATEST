@@ -93,3 +93,12 @@ HUD 与 UI 建议
 再加入星图、跃迁、任务、背包。
 
 最后补视觉特效、音效、存档、性能优化和移动端触控。
+
+## 部署（GitHub Pages）
+
+推送到 `main` 分支后，GitHub Actions（`.github/workflows/deploy.yml`）会自动执行 `npm run build` 并发布到 Pages。
+`vite.config.js` 会检测 Pages 构建环境并自动设置 `base = /<仓库名>/`，本地开发不受影响。
+
+仓库设置：Settings → Pages → **Build and deployment** → Source 选择 **GitHub Actions**。
+
+本地预览生产构建：`npm run build && npm run preview`。

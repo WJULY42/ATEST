@@ -5,7 +5,7 @@ import { planetTexture } from './Textures.js';
 export function createPlanetMesh(params, lod = 'high') {
   const group = new THREE.Group();
   const seg = lod === 'high' ? [48, 32] : [20, 14];
-  const geo = new THREE.SphereGeometry(params.radius, seg[0], seg[1]);
+  let geo = new THREE.SphereGeometry(params.radius, seg[0], seg[1]);
   // 低多边形风格：非索引化 + 平面法线
   if (lod === 'low') {
     geo.deleteAttribute('normal');

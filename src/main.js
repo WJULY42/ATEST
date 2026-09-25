@@ -338,6 +338,10 @@ function openStarmap() {
   input.unlock();
 }
 function closeStarmap() { starmap.close(); if (G.running && !G.paused) input.lock(); }
+// 点击画面重新锁定鼠标（Esc 解锁或指针锁定被浏览器拒绝后的恢复手段）
+renderer.domElement.addEventListener('pointerdown', () => {
+  if (G.running && !G.paused && !starmap.visible && !inventoryUI.visible && !input.mouseLocked) input.lock();
+});
 function openInventory() {
   inventoryUI.open(G.inventory);
   input.unlock();
@@ -746,8 +750,10 @@ function loop(now) {
   if (G.running && !G.paused) {
     G.time += dt;
     if (input.hit('Escape')) setPaused(true);
-    if (input.hit('KeyM')) starmap.visible ? closeStarmap() : openStarmap();
-    if (input.hit('Tab')) inventoryUI.visible ? closeInventory() : openInventory();
+    if (!starmap.visible && !inventoryUI.visible) {
+      if (input.hit('KeyM')) openStarmap();
+      if (input.hit('Tab')) openInventory();
+    }
     if (input.hit('KeyF') && G.mode === 'space') doScan();
 
     if (G.mode === 'space') updateSpace(dt);

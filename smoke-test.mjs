@@ -1,5 +1,5 @@
 import puppeteer from 'puppeteer';
-const browser = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox', '--use-gl=swiftshader'] });
+const browser = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox', '--enable-unsafe-swiftshader','--use-angle=swiftshader-webgl'] });
 const page = await browser.newPage();
 await page.setViewport({ width: 1280, height: 720 });
 const errors = [];
