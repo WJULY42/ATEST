@@ -31,7 +31,13 @@ export class Input {
     window.addEventListener('wheel', (e) => { this.wheel += Math.sign(e.deltaY); }, { passive: true });
   }
 
-  lock() { this._el.requestPointerLock?.(); }
+  lock() {
+    // 浏览器可能拒绝指针锁定（如 Esc 解锁后的冷却期、跨域 iframe），必须吞掉异常
+    try {
+      const r = this._el.requestPointerLock?.();
+      if (r && typeof r.catch === 'function') r.catch(() => {});
+    } catch (_) { /* ignore */ }
+  }
   unlock() { if (document.pointerLockElement) document.exitPointerLock(); }
 
   down(code) { return this.keys.has(code); }
